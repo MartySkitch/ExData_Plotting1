@@ -3,7 +3,7 @@
 # memory required = no. of column * no. of rows * 8 bytes/numeric
 memory_require <- 9 * 2075259 * 8
 
-setwd("D:/Skitch/Code/R/DataScienceSpecialization/ExData_Plotting1")
+setwd("D:/Skitch/Code/R/DataScienceSpecialization/ExData_Plotting1/ExData_Plotting1")
 
 plot2 <- function(){
   
@@ -27,13 +27,22 @@ plot2 <- function(){
   # now convert Data and Time to as.Date
   householdPower$DateTime <- strptime(paste(householdPower$Date, householdPower$Time), "%d/%m/%Y %H:%M:%S") 
   
+  # for the screen
+  PlotPowerData(householdPower)
   
-  with(householdPower, plot(DateTime, Global_active_power, type = "l",
-       xlab = "",
-       ylab = "Global Active Power (kilowatts)",
-       ) )
-
-  dev.copy(png, file = "./plot2.png")
+  # for the file
+  png(filename = "./plot2.png")
+  PlotPowerData(householdPower)
+  
   dev.off()
 
+}
+
+# function to plot data
+PlotPowerData <- function (householdPower) {
+  par(mfrow = c(1,1))
+  with(householdPower, plot(DateTime, Global_active_power, type = "l",
+                            xlab = "",
+                            ylab = "Global Active Power (kilowatts)"
+  ) )
 }

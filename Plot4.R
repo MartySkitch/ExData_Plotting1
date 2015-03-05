@@ -4,7 +4,7 @@
 memory_require <- (9 * 2075259 * 8) / 2 ^ 20
 print(  paste("Memory required: ", memory_require, " MB"))
 
-setwd("D:/Skitch/Code/R/DataScienceSpecialization/ExData_Plotting1")
+setwd("D:/Skitch/Code/R/DataScienceSpecialization/ExData_Plotting1/ExData_Plotting1")
 
 plot4 <- function(){
   
@@ -28,10 +28,24 @@ plot4 <- function(){
   # now convert Data and Time to as.Date
   householdPower$DateTime <- strptime(paste(householdPower$Date, householdPower$Time), "%d/%m/%Y %H:%M:%S") 
   
+  # for the screen
+  PlotPowerData(householdPower)
+  
+  # for the file
+  png(filename = "./plot4.png")
+  PlotPowerData(householdPower)
+  
+  dev.off()
+
+}
+
+# function to plot data
+PlotPowerData <- function (householdPower) {
   par(mfrow = c(2,2))
   
   # Global_active_power
   with(householdPower, plot(DateTime, Global_active_power, type = "l",
+                            
                             xlab = "",
                             ylab = "Global Active Power") )
   
@@ -47,18 +61,12 @@ plot4 <- function(){
   with(householdPower, points(DateTime, Sub_metering_1, type = "l") )
   with(householdPower, points(DateTime, Sub_metering_2, type = "l", col = "red") )
   with(householdPower, points(DateTime, Sub_metering_3, type = "l", col = "blue") )
-#   par(cex = 0.5)
   legend("topright", lty = 1, col = c("black", "red", "blue"), bty = "n", 
-         legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), pt.cex = 0.5)
+         legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), cex = 0.92)
   
   # Voltage
   with(householdPower, plot(DateTime, Global_reactive_power, type = "l",
                             xlab = "datetime",
                             ylab = "Global Reactive Power") )
-  
-  dev.copy(png, file = "./plot4.png")
-  dev.off()
-
 }
-
 
